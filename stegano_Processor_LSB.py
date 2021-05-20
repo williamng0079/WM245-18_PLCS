@@ -19,7 +19,12 @@ from PIL import Image
 # The following function will have the ability to encode the b64 message into the source image supplied
 def LSB_encoder(src_img, b64_message, out_img): # Taking the in, out image files and the b64 encoded message as function arguments
 
-    im = Image.open(src_img, 'r')               # Open the source image file in the read mode and store the read img into variable img
+    try:
+        im = Image.open(src_img, 'r')               # Open the source image file in the read mode and store the read img into variable img
+
+    except :
+        print("Error occurred during image opening... maybe the specified image does not exist in the current directory?")    # Check for errors when opening img file
+        exit(0)
 
     bit_list = list(im.getdata())               # This will convert the image into a list of pixel values, note that list converts it into an ordinary sequence rather than internal PIL data type
 
@@ -37,6 +42,7 @@ def LSB_encoder(src_img, b64_message, out_img): # Taking the in, out image files
 
     # This next line will be able convert the input message into binary format needed for later embedding
     # Firstly, it iterates through the secret message and formats them into 8 bits binary, then it joins them together with the null delimiter. Ref: Pieters, M. (2013). https://stackoverflow.com/questions/16926130/convert-to-binary-and-keep-leading-zeros-in-python
+    b64_message += "$KaT"                       # This will add a identifier at the end of the message to determine the end of the message
     bin_message = ''.join([format(ord(i), "08b") for i in b64_message]) 
     
     min_pixels = len(bin_message)               # This takes the length of the binary data and store it as the minimum pixel required for the encoding to work
@@ -55,7 +61,7 @@ def LSB_encoder(src_img, b64_message, out_img): # Taking the in, out image files
             
             if count < min_pixels:
                 
-                array[p][q] = int(bin(array[p][q])[2:9] + bin_message[count], 2)    # Replacing the last bits of each pixel with the arranged bin_message
+                array[p][q] = int(bin(array[p][q])[2:9] + bin_message[count], 2)    # Replacing the last bits of each pixel with the arranged bin_message with use of 2D array
                 
                 count += 1                      # increment count to iterate through the loop.
 
@@ -69,8 +75,62 @@ def LSB_encoder(src_img, b64_message, out_img): # Taking the in, out image files
     print("Image Encoded Successfully")
 
 
+# Decoding function
+def LSB_decoder(src_img):
+
+    # The following will achieve the same effect of opening and storing the image as the encoder function
+    try:
+        
+        im = Image.open(src_img, 'r')
+    
+    except:
+
+        print("Error occurred during image opening... maybe the specified image does not exist in the current directory?")
+        exit(0)
+
+    bit_list = list(im.getdata())               
+
+    array = numpy.array(bit_list)
+
+    if im.mode == 'RGB':
+        n = 3
+    elif im.mode == 'RGBA':
+        n = 4
+
+    total_pixels = array.size//n
+
+
+    
+    hidden_bits = ""    # Create an empty tring variable used to store the LSB of the encoded image.
+    
+    for p in range(total_pixels):   # Utilising a for loop to iterate throught the pixels
+        
+        for q in range(0, 3):
+            
+            hidden_bits += (bin(array[p][q])[2:][-1])   # Populating the binary string
+
+    hidden_bits = [hidden_bits[i:i+8] for i in range(0, len(hidden_bits), 8)] # Sorting the binary in a group of 8 bit
+
+    message = ""
+    
+    for i in range(len(hidden_bits)):                   
+        if message[-4:] == "$KaT":                      # Check if the end identifier is present within the code, note that : terminates the msg string
+            break
+        else:
+            message += chr(int(hidden_bits[i], 2))      # Converts the bits into integer value and then into character using chr
+    
+    if "$KaT" in message:
+    
+        print("Hidden b64 Message:", message[:-4])      # Removes the end identifier from the decoded msg
+    else:
+     
+        print("No Hidden Message Found")
+
+
 src_img = "kat.png"
-b64_message = "b64_encoded_output.txt"
 out_img = "kat-enc.png"
+secret_msg_file = "b64_encoded_output.txt"
+b64_message = open(secret_msg_file, "r").read()
 
 LSB_encoder(src_img, b64_message, out_img)
+LSB_decoder(out_img)
