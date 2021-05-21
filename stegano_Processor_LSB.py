@@ -24,7 +24,7 @@ def LSB_encoder(src_img, b64_message, out_img): # Taking the in, out image files
 
     except :
         print("Error occurred during image opening... maybe the specified image does not exist in the current directory?")    # Check for errors when opening img file
-        exit(0)
+        return -1
 
     bit_list = list(im.getdata())               # This will convert the image into a list of pixel values, note that list converts it into an ordinary sequence rather than internal PIL data type
 
@@ -72,7 +72,10 @@ def LSB_encoder(src_img, b64_message, out_img): # Taking the in, out image files
     enc_im = Image.fromarray(array.astype('uint8'), im.mode)    # Crafting the image again with the unsigned 8 bit integer
     enc_im.save(out_img)                                        # Saves the output image into the argument (out_img) passed into the function
     
-    print("Image Encoded Successfully")
+    print("Image Encoded Successfully, Please See the -enc Version of the Source Img.")
+    response_msg = "Image Encoded Successfully, Please See the -enc Version of the Source Img."
+
+    return response_msg
 
 
 # Decoding function
@@ -126,11 +129,11 @@ def LSB_decoder(src_img):
      
         print("No Hidden Message Found")
 
+if __name__ == "__main__":
+    src_img = "kat.png"
+    out_img = "kat-enc.png"
+    secret_msg_file = "b64_encoded_output.txt"
+    b64_message = open(secret_msg_file, "r").read()
 
-src_img = "kat.png"
-out_img = "kat-enc.png"
-secret_msg_file = "b64_encoded_output.txt"
-b64_message = open(secret_msg_file, "r").read()
-
-LSB_encoder(src_img, b64_message, out_img)
-LSB_decoder(out_img)
+    LSB_encoder(src_img, b64_message, out_img)
+    LSB_decoder(out_img)
