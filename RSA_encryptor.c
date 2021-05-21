@@ -14,6 +14,7 @@
 /* http://hayageek.com/rsa-encryption-decryption-openssl-c/ : The source reference of this code, author: Kusuma, R (2014) */
 /* Prior to running the program, please install openssl dev package using sudo apt-get install libssl-dev */
 /* The code can be compiled with "gcc -o RSA_encryptor RSA_encryptor.c -lcrypto  " */
+/* Note that the key size is 2048 bits meaning that the total size of encryption will be limited to that minus the padding, alternatively, 4096-bit RSA key can be used but it will greatly slow down te speed of encryption. */
 
 
 /* Function prototypes */
