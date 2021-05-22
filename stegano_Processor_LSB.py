@@ -72,10 +72,9 @@ def LSB_encoder(src_img, b64_message, out_img): # Taking the in, out image files
     enc_im = Image.fromarray(array.astype('uint8'), im.mode)    # Crafting the image again with the unsigned 8 bit integer
     enc_im.save(out_img)                                        # Saves the output image into the argument (out_img) passed into the function
     
-    print("Image Encoded Successfully, Please See the -enc Version of the Source Img.")
-    response_msg = "Image Encoded Successfully, Please See the -enc Version of the Source Img."
-
-    return response_msg
+    response_enc = "Image Encoded Successfully, Please See the -enc Version of the Source Img."
+    print(response_enc)
+    return response_enc                         # For later function calls in the GUI
 
 
 # Decoding function
@@ -89,7 +88,7 @@ def LSB_decoder(src_img):
     except:
 
         print("Error occurred during image opening... maybe the specified image does not exist in the current directory?")
-        exit(0)
+        return -1
 
     bit_list = list(im.getdata())               
 
@@ -124,16 +123,25 @@ def LSB_decoder(src_img):
     
     if "$KaT" in message:
     
-        print("Hidden b64 Message:", message[:-4])      # Removes the end identifier from the decoded msg
+        response_dec = "Hidden b64 Message: "+ message[:-4] # Removes the end identifier from the decoded msg
+        print (response_dec)    
+        file = open("b64_for_decrypt.txt", "w")         # This writes the decoded b64 into a new file so it can be read by the decryptor later.
+        file.write(message[:-4])
+        file.close()
+        return 1
     else:
-     
-        print("No Hidden Message Found")
+        
+        response_dec = "No Hidden Message Found"
+        print (response_dec)
+        
+        return response_dec                             # For later function calls in the GUI
+                                            
 
-if __name__ == "__main__":
+if __name__ == "__main__":                              # Program entry point, this prevents this program being executed when functions within are called by the GUI
     src_img = "kat.png"
     out_img = "kat-enc.png"
     secret_msg_file = "b64_encoded_output.txt"
     b64_message = open(secret_msg_file, "r").read()
 
-    LSB_encoder(src_img, b64_message, out_img)
+    #LSB_encoder(src_img, b64_message, out_img)
     LSB_decoder(out_img)
