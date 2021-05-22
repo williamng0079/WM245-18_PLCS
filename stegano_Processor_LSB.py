@@ -49,7 +49,9 @@ def LSB_encoder(src_img, b64_message, out_img): # Taking the in, out image files
 
     if total_pixels < min_pixels:
        
-       print("Error occured: please use an image with higher pixel counts for the steganography encoding...")
+       pixel_count_err = "Error occured: please use an image with higher pixel counts for the steganography encoding..."
+       print(pixel_count_err)
+       return -2
     
     else:
         
@@ -72,7 +74,7 @@ def LSB_encoder(src_img, b64_message, out_img): # Taking the in, out image files
     enc_im = Image.fromarray(array.astype('uint8'), im.mode)    # Crafting the image again with the unsigned 8 bit integer
     enc_im.save(out_img)                                        # Saves the output image into the argument (out_img) passed into the function
     
-    response_enc = "Image Encoded Successfully, Please See the -enc Version of the Source Img."
+    response_enc = "Image Encoded Successfully, Please See the newly created png file: " + out_img
     print(response_enc)
     return response_enc                         # For later function calls in the GUI
 
