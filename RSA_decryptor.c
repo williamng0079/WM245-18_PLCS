@@ -18,6 +18,7 @@
 /* Function prototypes */
 RSA * makeRSA(char * filename, int keytype);
 int private_decryption(unsigned char * encrypted_msg, int msg_len, char * filename, unsigned char * decrypted_msg);
+void write_decrypt(char * dec_msg);
 
 /* Program Entry */
 int main()
@@ -45,6 +46,7 @@ int main()
         exit(0);
     }
     
+    write_decrypt(decrypted_msg);
     //printf("The decoded message is:  %s\n", decoded_msg);
     printf("The decoded length is:  %d\n", decoded_len);
     printf("The decrypted message is: \n\n%s\n\n", decrypted_msg);
@@ -97,3 +99,11 @@ int private_decryption(unsigned char * encrypted_msg, int msg_len, char * filena
     
     return output_size; 
 } 
+// This funtion will be able to write the decoded message into a text file for it to be read and displayed later by the GUI
+void write_decrypt(char * dec_msg)
+{
+    char * dec_file = "decrypted_message.txt";
+    FILE * d = fopen(dec_file, "wb");
+    fputs(dec_msg, d);
+    fclose(d);
+}

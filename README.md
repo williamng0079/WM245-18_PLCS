@@ -15,4 +15,4 @@ sys
 os
 
 
-The c codes can be compiled with "gcc -o "program" "program".c -lcrypto
+The c codes can be compiled with gcc -o "program" "program".c -lcrypto
