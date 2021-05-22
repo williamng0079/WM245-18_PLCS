@@ -157,7 +157,7 @@ def button_command(user_input1, user_input2, crypt_mode):
 def welcome():
     welcome_prompt = Label(window, text = "WELCOME TO THE STEGANOGRAPHY TOOLSET!!!", fg = "steel blue", font = "Helvetica 25 bold").pack()
     
-    instruction_prompt1 = Label(window, text = "This tool will take and image file and can perform the following two actions: ", font = "Helvetica 15 bold ").pack()
+    instruction_prompt1 = Label(window, text = "This tool will take an image file and can perform the following two actions: ", font = "Helvetica 15 bold ").pack()
     instruction_prompt2 = Label(window, text = "1. Encrypt and encode the secret message into the image file entered below", font = "Helvetica 15 ").pack()
     instruction_prompt3 = Label(window, text = "2. Decode and decrypted the secret message hidden in the image file when decrypt mode is selected", font = "Helvetica 15 ").pack()
     instruction_prompt4 = Label(window, text = "IMPORTANT NOTICE",fg = "orange red", font = "Helvetica 18 bold").pack()
