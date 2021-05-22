@@ -3,13 +3,12 @@ This txt file documents the required package dependencies for the program to run
 ssl dev package for the encryptor and decryptor
 sudo apt-get install libssl-dev
 
+
 numpy
-sudo pip install numpy
+sudo pip3 install numpy
 
 PIL
-sudo pip install pillow
+sudo pip3 install pillow
 
 tkinter
-sudo apt-get install python3-tk
-or
-sudo pip install tk
+sudo pip3 install tk

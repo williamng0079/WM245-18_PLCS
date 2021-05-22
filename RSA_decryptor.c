@@ -30,7 +30,7 @@ int main()
     int decoded_len;                                                    // Store length of the decoded msg
     unsigned char decrypted_msg[4098] = {};                                     
     
-    char * b64_file = "b64_encoded_output.txt";                         // This section will be able to read the b64_encoded file and extract text within
+    char * b64_file = "b64_for_decrypt.txt";                         // This section will be able to read the b64_encoded file and extract text within
     FILE * f64 = fopen(b64_file, "rb");
     fgets(b64_msg, 350, f64);
     fclose(f64);
@@ -43,7 +43,7 @@ int main()
     if(decrypted_length == -1)                                          // Error check, -1 return means the error occur during the function.
     {
         printf("Error occured during decryption\n");
-        exit(0);
+        return 1;
     }
     
     write_decrypt(decrypted_msg);

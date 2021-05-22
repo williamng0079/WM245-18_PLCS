@@ -130,13 +130,13 @@ def LSB_decoder(src_img):
         file = open("b64_for_decrypt.txt", "w")         # This writes the decoded b64 into a new file so it can be read by the decryptor later.
         file.write(message[:-4])
         file.close()
-        return 1
+        return message[:-4]
     else:
         
         response_dec = "No Hidden Message Found"
         print (response_dec)
         
-        return response_dec                             # For later function calls in the GUI
+        return -3                             # For later function calls in the GUI
                                             
 # Program entry point, this prevents this program being executed when functions within are called by the GUI
 if __name__ == "__main__":                    # This main entry will allow the program to be functional outside of the GUI          

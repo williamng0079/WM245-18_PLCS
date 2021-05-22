@@ -4,6 +4,7 @@
 # Codemy.com. (2019). Create Graphical User Interfaces With Python And TKinter. [online] Available from: https://www.youtube.com/watch?v=oq3lJdhnPp8&list=PLCC34OHNcOtoC6GglhF3ncJ5rLwQrLGnV&index=8. Accessed: 17 May 2021
 # Kumar,B. (2020). Tkinter Checkbutton get value. [online] Available from: https://pythonguides.com/python-tkinter-checkbutton/. Accessed: 21 May 2021.
 # Python Tkinter Course. (n.d). Hello Tkinter Label. [online] Available from: https://www.python-course.eu/tkinter_labels.php. Accessed: 22 May 2021.
+# jfs. (2014). subprocess.check_output return code. [online] Available from: https://stackoverflow.com/questions/23420990/subprocess-check-output-return-code. Accessed: 22 May 2021.
 from tkinter import *
 import subprocess                    
 import numpy 
@@ -18,8 +19,13 @@ def execute_RSA_encryptor():
     subprocess.run(["./RSA_encryptor"]) 
 
 def execute_RSA_decryptor():
-    subprocess.run(["./RSA_decryptor"])
-
+    res = subprocess.run(["./RSA_decryptor"])
+    
+    if res.returncode == 1:                 # 
+        return -1
+    else:
+        return
+    
 
 # This function has the ability to restart the program to reset inputs and GUI messages
 def restart_program():                      
@@ -84,25 +90,35 @@ def LSB_decoding_process(enc_img):
     if decoded_value == -1:
         response_prompt = Label(window, text = "Error occurred when attempting to open the image... maybe the specified image does not exist in the current directory?").pack()
     
-    elif decoded_value == 1:
-        execute_RSA_decryptor()
-        response = open("decrypted_message.txt", "r").read()
+    elif decoded_value == -3:
+        response_prompt = Label(window, text = "No Hidden Message Found").pack()
+
+    elif decoded_value[-2:] == "==":
+        res = execute_RSA_decryptor()
+        if res == -1:
+            warning_prompt = Label(window, text = "Failed to decrypt RSA, displaying the raw decoded message below: ", fg = "red").pack()
+            response_prompt = Label(window, text = decoded_value).pack()
+            warning_prompt = Label(window, text = "Please note that the above decoded message was encoded into the image raw without RSA encryption!!!", fg = "red").pack()
+        else:
+            response = open("decrypted_message.txt", "r").read()
         
-        response_prompt = Label(window, text = "MESSAGE:  " + response, fg = "LightSteelBlue4", font = "Helvetica 16 bold italic").pack()
-    
+            response_prompt = Label(window, text = "MESSAGE:  " + response, fg = "LightSteelBlue4", font = "Helvetica 16 bold italic").pack()
+            storage_prompt = Label(window, text = "The RSA decrypted message has been successfully stored within the file decrypted_message.txt", fg = "green", font = "Helvetica 10 italic").pack()
     else:
         response_prompt = Label(window, text = decoded_value).pack()
-
+        warning_prompt = Label(window, text = "Please note that the above decoded message was encoded into the image raw without RSA encryption!!!", fg = "red").pack()
 
 # This function writes user entry to files so the encryption/decryption programs can read the content, this is done to acheive easier way of interfacing between tools
-def write_input2file(img_name, message):
-    file = open("source_image_name.txt", "w")
-    file.write(img_name)
-    file.close()
-
-    file = open("secret_message.txt","w")
-    file.write(message)
-    file.close()
+def write_input2file(img_nname, message):
+    #file = open("source_image_name.txt", "w")
+    #file.write(img_name)
+    #file.close()
+    if message == "":
+        return
+    else:
+        file = open("secret_message.txt","w")
+        file.write(message)
+        file.close()
     
 
 # The function that execute after the button press
@@ -117,8 +133,8 @@ def button_command(user_input1, user_input2, crypt_mode):
             return
         
         else:
-            write_input2file(img_input, msg_input)
             msg_check_value = message_check(msg_input)
+            write_input2file(img_input, msg_input)
             if msg_check_value == -1:
                 return
             
@@ -139,15 +155,15 @@ def button_command(user_input1, user_input2, crypt_mode):
 
 # This function displays welcome message and brief program description
 def welcome():
-    welcome_prompt = Label(window, text = "WELCOME TO THE STEGANOGRAPHY TOOLSET!!!", fg = "steel blue", font = "Helvetica 18 bold").pack()
+    welcome_prompt = Label(window, text = "WELCOME TO THE STEGANOGRAPHY TOOLSET!!!", fg = "steel blue", font = "Helvetica 25 bold").pack()
     
-    instruction_prompt = Label(window, text = "This tool will take and image file and can perform the following two actions: ", font = "Helvetica 10 bold ").pack()
-    instruction_prompt = Label(window, text = "1. Encrypt and encode the secret message into the image file entered below", font = "Helvetica 10 ").pack()
-    instruction_prompt = Label(window, text = "2. Decode and decrypted the secret message hidden in the image file when decrypt mode is selected", font = "Helvetica 10 ").pack()
-    instruction_prompt = Label(window, text = "IMPORTANT NOTICE", font = "Helvetica 11 bold").pack()
-    instruction_prompt = Label(window, text = "1. The image file has to be in png format", font = "Helvetica 10 bold").pack()
-    instruction_prompt = Label(window, text = "2. The maximum character length entered in the secret message box cannot exceed 214", font = "Helvetica 10 bold").pack()
-
+    instruction_prompt1 = Label(window, text = "This tool will take and image file and can perform the following two actions: ", font = "Helvetica 15 bold ").pack()
+    instruction_prompt2 = Label(window, text = "1. Encrypt and encode the secret message into the image file entered below", font = "Helvetica 15 ").pack()
+    instruction_prompt3 = Label(window, text = "2. Decode and decrypted the secret message hidden in the image file when decrypt mode is selected", font = "Helvetica 15 ").pack()
+    instruction_prompt4 = Label(window, text = "IMPORTANT NOTICE",fg = "orange red", font = "Helvetica 18 bold").pack()
+    instruction_prompt5 = Label(window, text = "1. The image file has to be in png format", font = "Helvetica 15 bold").pack()
+    instruction_prompt6 = Label(window, text = "2. The maximum character length entered in the secret message box cannot exceed 214", font = "Helvetica 15 bold").pack()
+    instruction_prompt7 = Label(window, text = "3. Please stretch the window if the message cannot be fully viewed", font = "Helvetica 15 bold").pack()
 
 # This will reset user entries, but not used due to restarting funtion being able to handle it too
 def reset_button():
@@ -158,7 +174,7 @@ def reset_button():
 #GUI configurations and layouts, the program entry point
 if __name__ == "__main__":   
     window = Tk(className = ' Steganography Toolset ')
-    window.geometry("650x650")
+    window.geometry("1000x650")
 
     welcome()
 
@@ -179,7 +195,7 @@ if __name__ == "__main__":
     mode_check = Checkbutton(window, text = "Decryption Mode", variable = bool_mode1, onvalue=1, offvalue=0).pack()
 
     bool_mode2 = IntVar()   # place holder for additonal steg algorithm later.
-    alg_check = Checkbutton(window, text = "Alternate Algorithm", variable = bool_mode2, onvalue = 1, offvalue = 0).pack()
+    alg_check = Checkbutton(window, text = "Alternate STEG Mode (placeholder)", variable = bool_mode2, onvalue = 1, offvalue = 0).pack()
 
 
     crypt_button = Button(window, text = "ENCRYPT/DECRYPT", padx = 75, pady = 40, command = lambda: button_command(src_img, sec_msg, bool_mode1)).pack()
