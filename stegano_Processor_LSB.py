@@ -125,7 +125,7 @@ def LSB_decoder(src_img):
     
     if "$KaT" in message:
     
-        response_dec = "Hidden b64 Message: "+ message[:-4] # Removes the end identifier from the decoded msg
+        response_dec = "Hidden Message: "+ message[:-4] # Removes the end identifier from the decoded msg
         print (response_dec)    
         file = open("b64_for_decrypt.txt", "w")         # This writes the decoded b64 into a new file so it can be read by the decryptor later.
         file.write(message[:-4])
@@ -138,12 +138,26 @@ def LSB_decoder(src_img):
         
         return response_dec                             # For later function calls in the GUI
                                             
+# Program entry point, this prevents this program being executed when functions within are called by the GUI
+if __name__ == "__main__":                    # This main entry will allow the program to be functional outside of the GUI          
+    print("====== WELCOME TO THE LSB STEGANOGRAPHY TOOL ======")
+    userinput = input("> SELECT 1 FOR ENCRYPTION MODE \n> SELECT 2 FOR DECRYPTION MODE\n")
+    
+    if userinput == "1":
+        src_img = input("> Enter the name of the image (.png only) file you would like to be encoded:\n")
+        out_img = "encoded.png"
+        message = input("> Enter the message you would like to be encrypted:\n")
+        LSB_encoder(src_img, message, out_img)
+        print("> For the encoded file, please see ecnoded.png...")
+        print("...PROGRAM TERMINATING...")
+    elif userinput == "2":
+        dec_img = input("> Enter the name of the image (.png only) file you would like to be decoded:\n")
+        LSB_decoder(dec_img)
+        print("...PROGRAM TERMINATING...")
+    else:
+        print("> UNKNOWN INPUT PLEASE ENTER VALID INPUT\n...PROGRAM TERMINATING...")
 
-if __name__ == "__main__":                              # Program entry point, this prevents this program being executed when functions within are called by the GUI
-    src_img = "kat.png"
-    out_img = "kat-enc.png"
-    secret_msg_file = "b64_encoded_output.txt"
-    b64_message = open(secret_msg_file, "r").read()
-
-    #LSB_encoder(src_img, b64_message, out_img)
-    LSB_decoder(out_img)
+    
+        
+    #secret_msg_file = "b64_encoded_output.txt"
+    #b64_message = open(secret_msg_file, "r").read()
