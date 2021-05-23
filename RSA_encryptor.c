@@ -1,3 +1,10 @@
+/* Base64.h header file source author: Sherif, W. (2013). base64.h -- Fast base64 encoding and decoding. [online] Available from: https://github.com/superwills/NibbleAndAHalf. Accessed: 18 May 2021. */
+/* The documentation for the openssl version 1.1.1 c library function calls: OpenSSL. (n.d). OpenSSL libraries. [online] Available from: https://www.openssl.org/docs/man1.1.1/man3/ The documentation for the openssl version 1.1.1 c library function calls, all fucntion explainations below are researched from this source. */
+/* The source of code reuse: Kusuma, R (2014). RSA Encryption & Decryption Example with OpenSSL in C. [online] Available from: http://hayageek.com/rsa-encryption-decryption-openssl-c/. Accessed: 18 May 2021 */
+/* Prior to running the program, please install openssl dev package using sudo apt-get install libssl-dev */
+/* The code can be compiled with "gcc -o RSA_encryptor RSA_encryptor.c -lcrypto  " */
+/* Note that the key size is 2048 bits meaning that the total size of encryption will be limited to that minus the padding, alternatively, 4096-bit RSA key can be used but it will greatly slow down the speed of encryption. */
+/* Header file "base64.h" is used to convert the encryptped binary into human readable text so it can be encoded later into stegano objects easiler */
 #include <stdio.h>
 #include <string.h>
 #include <openssl/pem.h>
@@ -8,21 +15,11 @@
 #include <openssl/err.h>
 #include "base64.h"  
 
-/* Header file "base64.h" is used to convert the encryptped binary into human readable text so it can be encoded later into stegano objects easiler */
-/* Base64.h header file source author: Sherif, W. (2013). */
-/* https://www.openssl.org/docs/man1.1.1/man3/ : The documentation for the openssl version 1.1.1 c library function calls, all fucntion explainations below are researched from this source. */
-/* http://hayageek.com/rsa-encryption-decryption-openssl-c/ : The source reference of this code, author: Kusuma, R (2014) */
-/* Prior to running the program, please install openssl dev package using sudo apt-get install libssl-dev */
-/* The code can be compiled with "gcc -o RSA_encryptor RSA_encryptor.c -lcrypto  " */
-/* Note that the key size is 2048 bits meaning that the total size of encryption will be limited to that minus the padding, alternatively, 4096-bit RSA key can be used but it will greatly slow down te speed of encryption. */
-
 
 /* Function prototypes */
 RSA * makeRSA(char * filename, int keytype);
 int public_encryption(unsigned char * msg, int msg_len, char * filename, unsigned char * encrypted_msg);
 void write_b64file(char * b64_msg);
-
-
 
 
 /* Program Entry */
@@ -70,9 +67,6 @@ int main()
 }
 
 
-
-
-
 // The following function will have the ability to read the public key file stored within the same directory and create a RSA structure 
 RSA * makeRSA(char * filename, int keytype)                             // declaring a function with the pointer return type 
 {
@@ -98,8 +92,6 @@ RSA * makeRSA(char * filename, int keytype)                             // decla
 } 
 
 
-
-
 // The next function is used to encrypt message with the rsa structure defined previously 
 int public_encryption(unsigned char * msg, int msg_len, char * filename, unsigned char * encrypted_msg)
 {
@@ -113,8 +105,6 @@ int public_encryption(unsigned char * msg, int msg_len, char * filename, unsigne
 
     return output_size;
 } 
-
-
 
 
 // This funtion will be able to write the encoded message into a text file
