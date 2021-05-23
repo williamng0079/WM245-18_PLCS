@@ -13,6 +13,8 @@ Python libraries required:
         sudo pip3 install numpy
     PIL
         sudo pip3 install pillow
+    stegano
+        sudo pip3 install Stegano
     subprocess
     sys
     os

@@ -1,0 +1,7 @@
+SURVEY
+
+1. How easy is the GUI to understand            4.5/5 image need to extension prompt
+2. Have you encountered any bugs/ errors        3/5 questionable executable path, need to execute under the same dir
+3. How easy is program to operate               5/5 
+4. Was the installation instruction clear       4/5 path need to be specified
+5. How was the ux for the GUI                   5/5, easy to understand. 
