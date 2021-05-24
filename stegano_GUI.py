@@ -18,18 +18,23 @@ import os
 # The below two funcitons will run the c executable in the same directory
 def execute_RSA_encryptor():                    
     
-    subprocess.run(["./RSA_encryptor"])                 # This will run the c executable as subprocesses (Python, 2021)
-
-def execute_RSA_decryptor():
-    
-    res = subprocess.run(["./RSA_decryptor"])           # This allows the error reutrn value to be parsed and stored for later error check (jfs, 2014)
+    res = subprocess.run(["./RSA_encryptor"])           # This will run the c executable as subprocesses (Python, 2021)
     if res.returncode == 1:                
         return -1                                       # Return -1 for error check later
     
     else:
         return
-    
 
+def execute_RSA_decryptor():
+    
+    res = subprocess.run(["./RSA_decryptor"])           # This will run the c executable as subprocesses (Python, 2021)
+    if res.returncode == 1:                             # This allows the error reutrn value to be parsed and stored for later error check (jfs, 2014)
+        return -1                                       # Return -1 for error check later
+    
+    else:
+        return
+    
+# Code reuse: (Gribouillis, 2010)
 # This function has the ability to restart the program to reset inputs and GUI messages
 def restart_program():                                  
     

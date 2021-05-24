@@ -46,7 +46,7 @@ int main()
     if(encrypted_length == -1)                                          // Error check, -1 return means the error occur during the function.
     {
         printf("Error occured during public encryption\n");
-        exit(0);
+        return 1;
     }
     
     encoded_msg = base64(encrypted_msg, encrypted_length, &encoded_len);// This function calls the base64.h header file and is able to process the binary data into human-readable base64 text.
@@ -66,7 +66,7 @@ int main()
     
 }
 
-
+/* Code Reuse: (Kusuma, 2014)*/
 // The following function will have the ability to read the public key file stored within the same directory and create a RSA structure 
 RSA * makeRSA(char * filename, int keytype)                             // declaring a function with the pointer return type 
 {
@@ -91,7 +91,7 @@ RSA * makeRSA(char * filename, int keytype)                             // decla
     return rsa;
 } 
 
-
+/* Code Reuse: (Kusuma, 2014)*/
 // The next function is used to encrypt message with the rsa structure defined previously 
 int public_encryption(unsigned char * msg, int msg_len, char * filename, unsigned char * encrypted_msg)
 {

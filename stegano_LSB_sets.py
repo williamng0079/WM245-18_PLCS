@@ -6,6 +6,7 @@
 from stegano import lsbset
 from stegano.lsbset import generators
 
+# Code reuse: (Stegano, n.d.)
 #This function encodes the message utlising lsbset from the Stegano module
 def LSB_sets_encoder(in_img, message, out_img):
     
@@ -24,6 +25,7 @@ def LSB_sets_encoder(in_img, message, out_img):
 
     return response_enc
 
+# Code reuse: (Stegano, n.d.)
 # Decoding function
 def LSB_sets_decoder(enc_img):
 
@@ -40,6 +42,7 @@ def LSB_sets_decoder(enc_img):
     file.write(extracted_message)
     file.close()
     return extracted_message
+
 
 # Main entry to provide standalong execution
 if __name__ == "__main__":                              

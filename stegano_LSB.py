@@ -14,6 +14,7 @@ import numpy
 from PIL import Image       
 
 
+# Code reuse: (Jain, 2020)
 # Encoding function
 def LSB_encoder(src_img, b64_message, out_img): # Taking the in, out image files and the b64 encoded message as function arguments
 
@@ -78,6 +79,7 @@ def LSB_encoder(src_img, b64_message, out_img): # Taking the in, out image files
     return response_enc                                 # Return value for GUI calls
 
 
+# Code reuse: (Jain, 2020)
 # Decoding function
 def LSB_decoder(src_img):
 
